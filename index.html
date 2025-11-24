@@ -66,7 +66,129 @@
         </main>
     </div>
 
-    <!-- Arquivo JavaScript -->
-    <script src="script.js"></script>
+    <!-- JavaScript embutido -->
+    <script>
+    // Função para adicionar zero à esquerda quando necessário
+    function pad(num) {
+        return num.toString().padStart(2, "0");
+    }
+
+    // Atualizar relógio em tempo real
+    function updateClock() {
+        const now = new Date();
+
+        const hours = pad(now.getHours());
+        const minutes = pad(now.getMinutes());
+        const seconds = pad(now.getSeconds());
+
+        const day = pad(now.getDate());
+        const month = pad(now.getMonth() + 1);
+        const year = now.getFullYear();
+
+        const clockTime = document.getElementById("clock-time");
+        const clockDate = document.getElementById("clock-date");
+
+        if (clockTime && clockDate) {
+            clockTime.textContent = \`\${hours}:\${minutes}:\${seconds}\`;
+            clockDate.textContent = \`\${day}/\${month}/\${year}\`;
+        }
+    }
+
+    // Gerar calendário do mês atual
+    function generateCalendar() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const monthIndex = now.getMonth(); // 0–11
+
+        const calendarMonth = document.getElementById("calendar-month");
+        const calendarYear = document.getElementById("calendar-year");
+        const calendarGrid = document.getElementById("calendar-grid");
+
+        if (!calendarGrid || !calendarMonth || !calendarYear) return;
+
+        const monthNames = [
+            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        ];
+
+        const weekDayNames = ["D", "S", "T", "Q", "Q", "S", "S"]; // Domingo a Sábado
+
+        calendarMonth.textContent = monthNames[monthIndex];
+        calendarYear.textContent = year;
+
+        // Limpar grid
+        calendarGrid.innerHTML = "";
+
+        // Cabeçalho: nomes dos dias da semana
+        weekDayNames.forEach(dayName => {
+            const el = document.createElement("div");
+            el.classList.add("calendar-day-name");
+            el.textContent = dayName;
+            calendarGrid.appendChild(el);
+        });
+
+        // Primeiro dia do mês
+        const firstDay = new Date(year, monthIndex, 1);
+        const startingWeekDay = firstDay.getDay(); // 0 (domingo) - 6 (sábado)
+
+        // Quantos dias tem o mês
+        const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
+        // Dias vazios antes do primeiro dia do mês
+        for (let i = 0; i < startingWeekDay; i++) {
+            const emptyCell = document.createElement("div");
+            emptyCell.classList.add("calendar-day", "empty");
+            emptyCell.textContent = "";
+            calendarGrid.appendChild(emptyCell);
+        }
+
+        // Dias do mês
+        const today = now.getDate();
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayCell = document.createElement("div");
+            dayCell.classList.add("calendar-day");
+            dayCell.textContent = day;
+
+            if (day === today) {
+                dayCell.classList.add("today");
+            }
+
+            calendarGrid.appendChild(dayCell);
+        }
+    }
+
+    // Bloco de notas com localStorage
+    function initNotes() {
+        const notesArea = document.getElementById("notes-area");
+        if (!notesArea) return;
+
+        const STORAGE_KEY = "roxy_dashboard_notes";
+
+        // Carregar notas salvas
+        const savedNotes = localStorage.getItem(STORAGE_KEY);
+        if (savedNotes !== null) {
+            notesArea.value = savedNotes;
+        }
+
+        // Salvar sempre que digitar
+        notesArea.addEventListener("input", () => {
+            localStorage.setItem(STORAGE_KEY, notesArea.value);
+        });
+    }
+
+    // Inicialização geral
+    document.addEventListener("DOMContentLoaded", () => {
+        // Relógio
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Calendário
+        generateCalendar();
+
+        // Notas
+        initNotes();
+    });
+    </script>
 </body>
 </html>
