@@ -40,7 +40,16 @@
             <section class="card" id="notes-card">
                 <h2>Bloco de Notas</h2>
                 <textarea id="notes-area" placeholder="Escreva aqui suas anotações rápidas, lembretes, mantras do dia, etc."></textarea>
-                <p class="notes-hint">As anotações são salvas automaticamente neste computador.</p>
+
+                <div class="notes-actions">
+                    <button id="save-notes-btn" type="button">Salvar notas</button>
+                    <p id="notes-status" class="notes-status">Nenhuma alteração salva ainda.</p>
+                </div>
+
+                <p class="notes-hint">
+                    As notas são salvas localmente neste navegador (localStorage). 
+                    Só ficam disponíveis neste computador e neste navegador.
+                </p>
             </section>
 
             <!-- Fase da Lua -->
@@ -146,24 +155,47 @@
         }
     }
 
-    // Bloco de notas com localStorage
-    function initNotes() {
-        var notesArea = document.getElementById("notes-area");
-        if (!notesArea) return;
+// Bloco de notas com localStorage + botão de salvar
+function initNotes() {
+    var notesArea = document.getElementById("notes-area");
+    var saveButton = document.getElementById("save-notes-btn");
+    var statusText = document.getElementById("notes-status");
 
-        var STORAGE_KEY = "roxy_dashboard_notes";
+    if (!notesArea || !saveButton || !statusText) return;
 
-        // Carregar notas salvas
-        var savedNotes = null;
+    var STORAGE_KEY = "roxy_dashboard_notes";
+
+    // Carregar notas salvas
+    var savedNotes = null;
+    try {
+        savedNotes = localStorage.getItem(STORAGE_KEY);
+    } catch (e) {
+        // Se der erro com localStorage, só ignora
+    }
+
+    if (savedNotes !== null) {
+        notesArea.value = savedNotes;
+        statusText.textContent = "Notas carregadas deste navegador.";
+    } else {
+        statusText.textContent = "Nenhuma nota salva ainda.";
+    }
+
+    // Ao clicar no botão, salvar
+    saveButton.addEventListener("click", function () {
         try {
-            savedNotes = localStorage.getItem(STORAGE_KEY);
+            localStorage.setItem(STORAGE_KEY, notesArea.value);
+            var now = new Date();
+            var timeStr = now.toLocaleTimeString("pt-BR", {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+            statusText.textContent = "Notas salvas localmente às " + timeStr + ".";
         } catch (e) {
-            // Se der erro com localStorage, só ignora
+            statusText.textContent = "Não foi possível salvar as notas (erro de armazenamento).";
         }
+    });
+}
 
-        if (savedNotes !== null) {
-            notesArea.value = savedNotes;
-        }
 
         // Salvar sempre que digitar
         notesArea.addEventListener("input", function () {
