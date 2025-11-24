@@ -128,81 +128,33 @@ body {
 .calendar-day.empty {
     opacity: 0.2;
 }
+/* Fase da Lua */
+.moon-content {
+    margin-top: 0.4rem;
+    text-align: center;
+}
 
-/* Bloco de notas */
-#notes-area {
-    width: 100%;
-    height: 170px;
-    margin-top: 0.5rem;
-    border-radius: 0.7rem;
+/* Link que envolve a imagem da lua */
+.moon-link {
+    display: inline-block;
+}
+
+/* Imagem da fase da lua */
+.moon-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.8rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    padding: 0.7rem;
-    background: rgba(0, 0, 0, 0.35);
-    color: #f5f5f5;
-    resize: vertical;
-    font-size: 0.95rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    margin-bottom: 0.4rem;
+    filter: drop-shadow(0 0 8px rgba(255, 200, 120, 0.5));
 }
 
-#notes-area:focus {
-    outline: none;
-    border-color: #ff7b54;
-    box-shadow: 0 0 0 1px rgba(255, 123, 84, 0.7);
-}
-
+/* Subtítulo / texto pequeno embaixo */
 .notes-hint {
     margin-top: 0.45rem;
     font-size: 0.8rem;
     opacity: 0.7;
-}
-
-/* Ações do bloco de notas */
-.notes-actions {
-    margin-top: 0.6rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-}
-
-#save-notes-btn {
-    align-self: flex-start;
-    padding: 0.4rem 0.8rem;
-    border-radius: 0.6rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: linear-gradient(135deg, #ff7b54, #ffb347);
-    color: #1a1a1a;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
-}
-
-#save-notes-btn:hover {
-    filter: brightness(1.05);
-    box-shadow: 0 0 10px rgba(255, 123, 84, 0.6);
-}
-
-#save-notes-btn:active {
-    transform: scale(0.97);
-}
-
-.notes-status {
-    font-size: 0.8rem;
-    opacity: 0.8;
-}
-
-/* Fase da Lua */
-.moon-content {
-    margin-top: 0.4rem;
-    font-size: 0.9rem;
-    opacity: 0.95;
-}
-
-.moon-iframe {
-    width: 100%;
-    min-height: 140px;
-    border-radius: 0.7rem;
-    border: none;
-    margin-top: 0.5rem;
 }
 
 /* Responsividade */
