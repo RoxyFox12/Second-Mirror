@@ -128,18 +128,17 @@ body {
 .calendar-day.empty {
     opacity: 0.2;
 }
+
 /* Fase da Lua */
 .moon-content {
     margin-top: 0.4rem;
     text-align: center;
 }
 
-/* Link que envolve a imagem da lua */
 .moon-link {
     display: inline-block;
 }
 
-/* Imagem da fase da lua */
 .moon-image {
     max-width: 100%;
     height: auto;
