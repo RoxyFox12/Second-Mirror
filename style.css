@@ -69,18 +69,67 @@ body {
     padding-bottom: 0.4rem;
 }
 
-/* Relógio */
-.clock-time {
-    font-size: 2.6rem;
+/* --- Relógio Cyber-Místico --- */
+
+#clock-card {
+    /* se quiser um fundo ligeiramente diferente do resto, pode usar:
+       background: radial-gradient(circle at top, #241a3a, #050510);
+       se não quiser, pode deixar só o padrão dos outros cards
+    */
+}
+
+.clock-main {
+    margin-top: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.4rem;
+}
+
+#clock-hours {
+    font-size: 2.8rem;
     font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+#clock-seconds {
+    font-size: 1.2rem;
+    opacity: 0.85;
     margin-top: 0.4rem;
 }
 
-.clock-date {
-    margin-top: 0.3rem;
-    font-size: 1rem;
-    opacity: 0.85;
+.clock-line {
+    margin: 0.6rem auto 0.5rem auto;
+    height: 2px;
+    width: 70%;
+    background: linear-gradient(90deg, rgba(255, 123, 84, 0), #ffb347, rgba(255, 123, 84, 0));
+    opacity: 0.9;
 }
+
+.clock-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    opacity: 0.9;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.clock-dot {
+    color: #ffb347;
+    font-size: 0.9rem;
+}
+
+#clock-weekday {
+    font-weight: 500;
+}
+
+#clock-tagline {
+    opacity: 0.8;
+}
+
 
 /* Calendário */
 .calendar-header {
