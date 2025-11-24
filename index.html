@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel da Roxy – Segunda Tela</title>
+
+    <!-- Arquivo de estilos -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <h1>Painel da Roxy</h1>
+            <p class="subtitle">Fogo que cria, vento que guia</p>
+        </header>
+
+        <main class="dashboard-grid">
+            <!-- Relógio -->
+            <section class="card" id="clock-card">
+                <h2>Relógio</h2>
+                <div class="clock-time" id="clock-time">--:--:--</div>
+                <div class="clock-date" id="clock-date">--/--/----</div>
+            </section>
+
+            <!-- Calendário -->
+            <section class="card" id="calendar-card">
+                <h2>Calendário</h2>
+                <div class="calendar-header">
+                    <span id="calendar-month">Mês</span>
+                    <span id="calendar-year">Ano</span>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Dias do calendário serão gerados via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Bloco de notas -->
+            <section class="card" id="notes-card">
+                <h2>Bloco de Notas</h2>
+                <textarea id="notes-area" placeholder="Escreva aqui suas anotações rápidas, lembretes, mantras do dia, etc."></textarea>
+                <p class="notes-hint">As anotações são salvas automaticamente neste computador.</p>
+            </section>
+
+            <!-- Fase da Lua -->
+            <section class="card" id="moon-card">
+                <h2>Fase da Lua</h2>
+                <div class="moon-content" id="moon-content">
+                    <!-- 
+                        Aqui você pode colar o código de embed/iframe 
+                        de um widget de fase lunar do site que você escolher.
+
+                        Exemplo genérico (depois você substitui a URL):
+
+                        <iframe 
+                            src="URL_DO_WIDGET_DE_FASE_LUNAR"
+                            frameborder="0"
+                            class="moon-iframe">
+                        </iframe>
+                    -->
+                    <p>Espaço reservado para o widget de fase lunar.</p>
+                    <p class="notes-hint">Cole aqui o código do widget do site que você preferir.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Arquivo JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
