@@ -40,9 +40,14 @@
             <section class="card" id="calendar-card">
                 <h2>Calendário</h2>
                 <div class="calendar-header">
-                    <span id="calendar-month">Mês</span>
-                    <span id="calendar-year">Ano</span>
+                    <button id="calendar-prev" type="button" aria-label="Mês anterior">‹</button>
+                    <div class="calendar-title">
+                        <span id="calendar-month">Mês</span>
+                        <span id="calendar-year">Ano</span>
+                    </div>
+                    <button id="calendar-next" type="button" aria-label="Próximo mês">›</button>
                 </div>
+
                 <div class="calendar-grid" id="calendar-grid">
                     <!-- Dias do calendário serão gerados via JavaScript -->
                 </div>
@@ -127,53 +132,117 @@ function updateClock() {
     }
 }
 
-    // Gerar calendário do mês atual
-    function generateCalendar() {
+var currentCalendarYear = null;
+var currentCalendarMonthIndex = null; // 0–11
+var todayRef = new Date();
+
+// Gerar calendário para ano/mês específicos
+function generateCalendar(year, monthIndex) {
+    var calendarMonth = document.getElementById("calendar-month");
+    var calendarYear = document.getElementById("calendar-year");
+    var calendarGrid = document.getElementById("calendar-grid");
+
+    if (!calendarGrid || !calendarMonth || !calendarYear) return;
+
+    if (typeof year === "undefined" || typeof monthIndex === "undefined") {
         var now = new Date();
-        var year = now.getFullYear();
-        var monthIndex = now.getMonth(); // 0–11
+        year = now.getFullYear();
+        monthIndex = now.getMonth();
+    }
 
-        var calendarMonth = document.getElementById("calendar-month");
-        var calendarYear = document.getElementById("calendar-year");
-        var calendarGrid = document.getElementById("calendar-grid");
+    currentCalendarYear = year;
+    currentCalendarMonthIndex = monthIndex;
 
-        if (!calendarGrid || !calendarMonth || !calendarYear) return;
+    var monthNames = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
 
-        var monthNames = [
-            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-        ];
+    var weekDayNames = ["D", "S", "T", "Q", "Q", "S", "S"]; // Domingo a Sábado
 
-        var weekDayNames = ["D", "S", "T", "Q", "Q", "S", "S"]; // Domingo a Sábado
+    calendarMonth.textContent = monthNames[monthIndex];
+    calendarYear.textContent = year;
 
-        calendarMonth.textContent = monthNames[monthIndex];
-        calendarYear.textContent = year;
+    calendarGrid.innerHTML = "";
 
-        // Limpar grid
-        calendarGrid.innerHTML = "";
+    // Cabeçalho: nomes dos dias da semana
+    for (var i = 0; i < weekDayNames.length; i++) {
+        var nameCell = document.createElement("div");
+        nameCell.className = "calendar-day-name";
+        nameCell.textContent = weekDayNames[i];
+        calendarGrid.appendChild(nameCell);
+    }
 
-        // Cabeçalho: nomes dos dias da semana
-        for (var i = 0; i < weekDayNames.length; i++) {
-            var nameCell = document.createElement("div");
-            nameCell.className = "calendar-day-name";
-            nameCell.textContent = weekDayNames[i];
-            calendarGrid.appendChild(nameCell);
+    var firstDay = new Date(year, monthIndex, 1);
+    var startingWeekDay = firstDay.getDay();
+    var daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
+    // Dias vazios antes do primeiro dia do mês
+    for (var empty = 0; empty < startingWeekDay; empty++) {
+        var emptyCell = document.createElement("div");
+        emptyCell.className = "calendar-day empty";
+        emptyCell.textContent = "";
+        calendarGrid.appendChild(emptyCell);
+    }
+
+    var todayYear = todayRef.getFullYear();
+    var todayMonth = todayRef.getMonth();
+    var todayDate = todayRef.getDate();
+
+    // Dias do mês
+    for (var dayNum = 1; dayNum <= daysInMonth; dayNum++) {
+        var dayCell = document.createElement("div");
+        dayCell.className = "calendar-day";
+        dayCell.textContent = dayNum;
+
+        // Marca hoje apenas se for o mês/ano atual
+        if (year === todayYear && monthIndex === todayMonth && dayNum === todayDate) {
+            dayCell.className += " today";
         }
 
-        // Primeiro dia do mês
-        var firstDay = new Date(year, monthIndex, 1);
-        var startingWeekDay = firstDay.getDay(); // 0 (domingo) - 6 (sábado)
+        calendarGrid.appendChild(dayCell);
+    }
+}
 
-        // Quantos dias tem o mês
-        var daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+// Controles de navegação do calendário
+function setupCalendarNavigation() {
+    var prevBtn = document.getElementById("calendar-prev");
+    var nextBtn = document.getElementById("calendar-next");
 
-        // Dias vazios antes do primeiro dia do mês
-        for (var empty = 0; empty < startingWeekDay; empty++) {
-            var emptyCell = document.createElement("div");
-            emptyCell.className = "calendar-day empty";
-            emptyCell.textContent = "";
-            calendarGrid.appendChild(emptyCell);
+    if (!prevBtn || !nextBtn) return;
+
+    prevBtn.addEventListener("click", function () {
+        if (currentCalendarYear === null || currentCalendarMonthIndex === null) {
+            var now = new Date();
+            generateCalendar(now.getFullYear(), now.getMonth());
+            return;
         }
+
+        var year = currentCalendarYear;
+        var month = currentCalendarMonthIndex - 1;
+        if (month < 0) {
+            month = 11;
+            year--;
+        }
+        generateCalendar(year, month);
+    });
+
+    nextBtn.addEventListener("click", function () {
+        if (currentCalendarYear === null || currentCalendarMonthIndex === null) {
+            var now = new Date();
+            generateCalendar(now.getFullYear(), now.getMonth());
+            return;
+        }
+
+        var year = currentCalendarYear;
+        var month = currentCalendarMonthIndex + 1;
+        if (month > 11) {
+            month = 0;
+            year++;
+        }
+        generateCalendar(year, month);
+    });
+}
 
         // Dias do mês
         var today = now.getDate();
@@ -192,13 +261,16 @@ function updateClock() {
     }
         
     // Inicialização geral
-    document.addEventListener("DOMContentLoaded", function () {
-        updateClock();
-        setInterval(updateClock, 1000);
-    
-        generateCalendar();
-    });
+document.addEventListener("DOMContentLoaded", function () {
+    updateClock();
+    setInterval(updateClock, 1000);
 
+    // Calendário começa no mês atual
+    var now = new Date();
+    generateCalendar(now.getFullYear(), now.getMonth());
+    setupCalendarNavigation();
+});
+        
     </script>
 </body>
 </html>
