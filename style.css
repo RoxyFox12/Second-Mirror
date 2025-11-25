@@ -272,7 +272,7 @@ body {
         padding: 1rem;
     }
 
-    .clock-time {
+    #clock-hours {
         font-size: 2rem;
     }
 }
