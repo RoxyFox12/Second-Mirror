@@ -76,42 +76,57 @@
         return (num < 10 ? "0" : "") + num;
     }
 
-    // Atualizar relógio em modo cyber-místico
-    function updateClock() {
-        var now = new Date();
+  var lastMinute = null;
 
-        var hours = pad(now.getHours());
-        var minutes = pad(now.getMinutes());
-        var seconds = pad(now.getSeconds());
+// Atualizar relógio em modo cyber-místico com animação de minuto
+function updateClock() {
+    var now = new Date();
 
-        var weekdays = [
-                "Domingo",
-            "Segunda-feira",
-            "Terça-feira",
-            "Quarta-feira",
-            "Quinta-feira",
-            "Sexta-feira",
-            "Sábado"
-        ];
+    var hours = pad(now.getHours());
+    var minutes = pad(now.getMinutes());
+    var seconds = pad(now.getSeconds());
 
-        var clockHoursEl = document.getElementById("clock-hours");
-        var clockSecondsEl = document.getElementById("clock-seconds");
-        var clockWeekdayEl = document.getElementById("clock-weekday");
+    var weekdays = [
+        "Domingo",
+        "Segunda-feira",
+        "Terça-feira",
+        "Quarta-feira",
+        "Quinta-feira",
+        "Sexta-feira",
+        "Sábado"
+    ];
 
-        if (clockHoursEl) {
-            clockHoursEl.textContent = hours + ":" + minutes;
-        }
+    var clockHoursEl = document.getElementById("clock-hours");
+    var clockSecondsEl = document.getElementById("clock-seconds");
+    var clockWeekdayEl = document.getElementById("clock-weekday");
+    var clockMainEl = document.querySelector(".clock-main");
 
-        if (clockSecondsEl) {
-            clockSecondsEl.textContent = seconds;
-        }
-
-        if (clockWeekdayEl) {
-            clockWeekdayEl.textContent = weekdays[now.getDay()];
-        }
+    if (clockHoursEl) {
+        clockHoursEl.textContent = hours + ":" + minutes;
     }
 
-        
+    if (clockSecondsEl) {
+        clockSecondsEl.textContent = seconds;
+    }
+
+    if (clockWeekdayEl) {
+        clockWeekdayEl.textContent = weekdays[now.getDay()];
+    }
+
+    // Animação quando muda o minuto
+    if (clockMainEl) {
+        if (lastMinute === null) {
+            lastMinute = minutes;
+        } else if (lastMinute !== minutes) {
+            lastMinute = minutes;
+            clockMainEl.classList.remove("clock-pulse");
+            // força reflow pra reiniciar animação
+            void clockMainEl.offsetWidth;
+            clockMainEl.classList.add("clock-pulse");
+        }
+    }
+}
+
     // Gerar calendário do mês atual
     function generateCalendar() {
         var now = new Date();
