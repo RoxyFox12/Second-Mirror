@@ -244,21 +244,27 @@ function setupCalendarNavigation() {
     });
 }
 
-        // Dias do mês
-        var today = now.getDate();
+// Dias do mês
+var now = new Date();
+var today = now.getDate();
 
-        for (var dayNum = 1; dayNum <= daysInMonth; dayNum++) {
-            var dayCell = document.createElement("div");
-            dayCell.className = "calendar-day";
-            dayCell.textContent = dayNum;
+for (var dayNum = 1; dayNum <= daysInMonth; dayNum++) {
+    var dayCell = document.createElement("div");
+    dayCell.className = "calendar-day";
+    dayCell.textContent = dayNum;
 
-            if (dayNum === today) {
-                dayCell.className += " today";
-            }
+    // Marca como "hoje" apenas no mês real
+    if (
+        year === todayRef.getFullYear() &&
+        monthIndex === todayRef.getMonth() &&
+        dayNum === today
+    ) {
+        dayCell.className += " today";
+    }
 
-            calendarGrid.appendChild(dayCell);
-        }
-        
+    calendarGrid.appendChild(dayCell);
+}
+
     // Inicialização geral
 document.addEventListener("DOMContentLoaded", function () {
     updateClock();
