@@ -72,10 +72,7 @@ body {
 /* --- Relógio Cyber-Místico --- */
 
 #clock-card {
-    /* se quiser um fundo ligeiramente diferente do resto, pode usar:
        background: radial-gradient(circle at top, #241a3a, #050510);
-       se não quiser, pode deixar só o padrão dos outros cards
-    */
 }
 
 .clock-main {
