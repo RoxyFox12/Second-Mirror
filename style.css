@@ -99,11 +99,30 @@ body {
     margin: 0.6rem auto 0.5rem auto;
     height: 2px;
     width: 70%;
-    background: linear-gradient(90deg, rgba(255, 123, 84, 0), #ffb347, rgba(255, 123, 84, 0));
-    opacity: 0.9;
+    border-radius: 3px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 200, 140, 0.0) 0%,
+        rgba(255, 200, 140, 0.35) 50%,
+        rgba(255, 200, 140, 0.0) 100%
+    );
     background-size: 200% 100%;
-    animation: clock-line-flow 5s linear infinite;
+    animation: clock-line-loop 6s ease-in-out infinite;
+    opacity: 0.7;
 }
+
+@keyframes clock-line-loop {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 
 @keyframes clock-line-flow {
     0% {
@@ -327,30 +346,5 @@ body {
 
     #clock-hours {
         font-size: 2rem;
-    }
-}
-
-/* Efeito de "vento" suave no fundo */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.04), transparent 55%),
-                radial-gradient(circle at 90% 100%, rgba(255, 180, 120, 0.05), transparent 55%);
-    mix-blend-mode: screen;
-    opacity: 0.7;
-    animation: wind-flow 18s linear infinite alternate;
-}
-
-@keyframes wind-flow {
-    0% {
-        transform: translate3d(-10px, 0, 0);
-    }
-    50% {
-        transform: translate3d(15px, -10px, 0);
-    }
-    100% {
-        transform: translate3d(-8px, 5px, 0);
     }
 }
