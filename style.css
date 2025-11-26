@@ -79,21 +79,45 @@ body {
     margin-top: 0.6rem;
     display: flex;
     justify-content: center;
-    align-items: baseline;
+    align-items: center;
     gap: 0.4rem;
 }
 
 #clock-hours {
+    font-family: "Roboto Mono", monospace;
     font-size: 2.8rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+
+    /* todos os dígitos com mesma largura */
+    font-variant-numeric: tabular-nums;
+
+    /* sempre reserva espaço para "00:00" */
+    min-width: 6.2ch;
+    text-align: right;
+
+    text-shadow:
+        0 0 4px rgba(255, 198, 141, 0.6),
+        0 0 10px rgba(255, 198, 141, 0.45),
+        0 0 18px rgba(255, 198, 141, 0.25);
+    color: #ffe7c2;
 }
 
+
 #clock-seconds {
+    font-family: "Roboto Mono", monospace;
     font-size: 1.2rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+
     opacity: 0.85;
     margin-top: 0.4rem;
+
+    text-shadow:
+        0 0 3px rgba(255, 198, 141, 0.4),
+        0 0 6px rgba(255, 198, 141, 0.2);
+    color: #ffd8a3;
 }
+
 
 .clock-line {
     margin: 0.6rem auto 0.5rem auto;
