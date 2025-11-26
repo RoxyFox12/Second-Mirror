@@ -83,13 +83,17 @@
 
   var lastMinute = null;
 
-// Atualizar relógio em modo cyber-místico com animação de minuto
+// Atualizar relógio em modo cyber-místico com animação de minuto e hora espelhada
 function updateClock() {
     var now = new Date();
 
-    var hours = pad(now.getHours());
-    var minutes = pad(now.getMinutes());
-    var seconds = pad(now.getSeconds());
+    var hoursNum = now.getHours();
+    var minutesNum = now.getMinutes();
+    var secondsNum = now.getSeconds();
+
+    var hours = pad(hoursNum);
+    var minutes = pad(minutesNum);
+    var seconds = pad(secondsNum);
 
     var weekdays = [
         "Domingo",
@@ -101,10 +105,11 @@ function updateClock() {
         "Sábado"
     ];
 
-    var clockHoursEl = document.getElementById("clock-hours");
+    var clockHoursEl   = document.getElementById("clock-hours");
     var clockSecondsEl = document.getElementById("clock-seconds");
     var clockWeekdayEl = document.getElementById("clock-weekday");
-    var clockMainEl = document.querySelector(".clock-main");
+    var clockMainEl    = document.querySelector(".clock-main");
+    var clockCardEl    = document.getElementById("clock-card");
 
     if (clockHoursEl) {
         clockHoursEl.textContent = hours + ":" + minutes;
@@ -118,16 +123,26 @@ function updateClock() {
         clockWeekdayEl.textContent = weekdays[now.getDay()];
     }
 
-    // Animação quando muda o minuto
+    // Animação quando muda o minuto (pulse suave)
     if (clockMainEl) {
         if (lastMinute === null) {
             lastMinute = minutes;
         } else if (lastMinute !== minutes) {
             lastMinute = minutes;
             clockMainEl.classList.remove("clock-pulse");
-            // força reflow pra reiniciar animação
-            void clockMainEl.offsetWidth;
+            void clockMainEl.offsetWidth; // força reflow
             clockMainEl.classList.add("clock-pulse");
+        }
+    }
+
+    // Efeito especial quando horas e minutos são iguais (11:11, 13:13, etc.)
+    var isMirrorTime = (hours === minutes); // "11" === "11"
+
+    if (clockCardEl) {
+        if (isMirrorTime) {
+            clockCardEl.classList.add("mirror-time");
+        } else {
+            clockCardEl.classList.remove("mirror-time");
         }
     }
 }
