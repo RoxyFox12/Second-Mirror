@@ -337,10 +337,204 @@ function setupCalendarNavigation() {
     });
 }
 
+// -----------------------------
+// Eventos do dia (semana, resto do mês, dia do ano)
+// -----------------------------
+function updateDayInfo() {
+    var now = new Date();
+
+    var weekdayNamesLong = [
+        "Domingo",
+        "Segunda-feira",
+        "Terça-feira",
+        "Quarta-feira",
+        "Quinta-feira",
+        "Sexta-feira",
+        "Sábado"
+    ];
+
+    var monthNames = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    var day = now.getDate();
+    var monthIndex = now.getMonth();
+    var year = now.getFullYear();
+
+    var todayStr = weekdayNamesLong[now.getDay()] + ", " +
+                   pad(day) + " de " + monthNames[monthIndex];
+
+    var firstOfMonth = new Date(year, monthIndex, 1);
+    var firstWeekday = firstOfMonth.getDay(); // 0–6
+
+    var weekOfMonth = Math.ceil((day + firstWeekday) / 7);
+
+    var lastOfMonth = new Date(year, monthIndex + 1, 0);
+    var daysInMonth = lastOfMonth.getDate();
+    var daysRemaining = daysInMonth - day;
+
+    var startOfYear = new Date(year, 0, 1);
+    var diffMs = now - startOfYear;
+    var dayOfYear = Math.floor(diffMs / (1000 * 60 * 60 * 24)) + 1;
+
+    var dayinfoTodayEl        = document.getElementById("dayinfo-today");
+    var dayinfoWeekOfMonthEl  = document.getElementById("dayinfo-weekofmonth");
+    var dayinfoDaysRemainingEl= document.getElementById("dayinfo-daysremaining");
+    var dayinfoDayOfYearEl    = document.getElementById("dayinfo-dayofyear");
+
+    if (dayinfoTodayEl) {
+        dayinfoTodayEl.textContent = todayStr;
+    }
+    if (dayinfoWeekOfMonthEl) {
+        dayinfoWeekOfMonthEl.textContent = "Semana " + weekOfMonth;
+    }
+    if (dayinfoDaysRemainingEl) {
+        dayinfoDaysRemainingEl.textContent = daysRemaining + " dia" + (daysRemaining === 1 ? "" : "s");
+    }
+    if (dayinfoDayOfYearEl) {
+        dayinfoDayOfYearEl.textContent = dayOfYear + " / 365";
+    }
+}
+
+// -----------------------------
+// Energia do dia (nascer / pôr do sol)
+// usando API sunrise-sunset.org (sem chave)
+// -----------------------------
+function initSolarCard() {
+    var sunriseEl   = document.getElementById("solar-sunrise");
+    var sunsetEl    = document.getElementById("solar-sunset");
+    var remainingEl = document.getElementById("solar-remaining");
+    var statusEl    = document.getElementById("solar-status");
+
+    if (!sunriseEl || !sunsetEl || !remainingEl || !statusEl) return;
+
+    // Coordenadas aproximadas de São Paulo (pode ajustar se quiser)
+    var lat = -23.55;
+    var lng = -46.63;
+
+    var url = "https://api.sunrise-sunset.org/json?lat=" + lat +
+              "&lng=" + lng + "&formatted=0";
+
+    fetch(url)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            if (!data || data.status !== "OK") {
+                statusEl.textContent = "Não foi possível carregar os dados solares.";
+                return;
+            }
+
+            var results = data.results;
+
+            var sunriseDate = new Date(results.sunrise);
+            var sunsetDate  = new Date(results.sunset);
+
+            var now = new Date();
+
+            var sunriseStr = pad(sunriseDate.getHours()) + ":" +
+                             pad(sunriseDate.getMinutes());
+            var sunsetStr  = pad(sunsetDate.getHours()) + ":" +
+                             pad(sunsetDate.getMinutes());
+
+            sunriseEl.textContent = sunriseStr;
+            sunsetEl.textContent  = sunsetStr;
+
+            var remainingText = "";
+            if (now < sunriseDate) {
+                // Antes do nascer do sol
+                var diffMs = sunriseDate - now;
+                var diffMin = Math.round(diffMs / 60000);
+                var hrs = Math.floor(diffMin / 60);
+                var mins = diffMin % 60;
+                remainingText = "Dia ainda não começou (" + hrs + "h " + pad(mins) + "min)";
+            } else if (now >= sunriseDate && now <= sunsetDate) {
+                // Durante o dia
+                var diffMsDay = sunsetDate - now;
+                var diffMinDay = Math.round(diffMsDay / 60000);
+                var hrsDay = Math.floor(diffMinDay / 60);
+                var minsDay = diffMinDay % 60;
+                remainingText = hrsDay + "h " + pad(minsDay) + "min";
+            } else {
+                // Após o pôr do sol
+                remainingText = "Dia encerrado – agora é noite.";
+            }
+
+            remainingEl.textContent = remainingText;
+
+            statusEl.textContent = "Dados solares carregados.";
+        })
+        .catch(function () {
+            statusEl.textContent = "Falha ao obter dados solares.";
+        });
+}
+
+// -----------------------------
+// Clima minimalista (Open-Meteo)
+// -----------------------------
+function initWeatherCard() {
+    var iconEl     = document.getElementById("weather-icon");
+    var tempEl     = document.getElementById("weather-temp");
+    var appEl      = document.getElementById("weather-apparent");
+    var statusEl   = document.getElementById("weather-status");
+
+    if (!iconEl || !tempEl || !appEl || !statusEl) return;
+
+    var lat = -23.55;
+    var lng = -46.63;
+
+    var url = "https://api.open-meteo.com/v1/forecast?latitude=" + lat +
+              "&longitude=" + lng +
+              "&current_weather=true&timezone=auto";
+
+    fetch(url)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            if (!data || !data.current_weather) {
+                statusEl.textContent = "Não foi possível carregar o clima.";
+                return;
+            }
+
+            var cw = data.current_weather;
+            var temperature = cw.temperature;
+            var weatherCode = cw.weathercode;
+
+            tempEl.textContent = Math.round(temperature) + "°C";
+            appEl.textContent  = Math.round(temperature) + "°C";
+
+            // Mapear código de clima para emoji simples
+            var icon = "⛅";
+            if (weatherCode === 0) icon = "☀️";
+            else if (weatherCode === 1 || weatherCode === 2) icon = "🌤️";
+            else if (weatherCode === 3) icon = "☁️";
+            else if (weatherCode === 45 || weatherCode === 48) icon = "🌫️";
+            else if (weatherCode >= 51 && weatherCode <= 67) icon = "🌧️";
+            else if (weatherCode >= 71 && weatherCode <= 77) icon = "🌨️";
+            else if (weatherCode >= 80 && weatherCode <= 82) icon = "🌧️";
+            else if (weatherCode >= 95) icon = "⛈️";
+
+            iconEl.textContent = icon;
+
+            statusEl.textContent = "Dados de clima carregados.";
+        })
+        .catch(function () {
+            statusEl.textContent = "Falha ao obter o clima.";
+        });
+}
+
+        
     // Inicialização geral
 document.addEventListener("DOMContentLoaded", function () {
     updateClock();
     setInterval(updateClock, 1000);
+
+    var now = new Date();
+    generateCalendar(now.getFullYear(), now.getMonth());
+    setupCalendarNavigation();
+
+    updateDayInfo();
+    initSolarCard();
+    initWeatherCard();
+});
 
     // Calendário começa no mês atual
     var now = new Date();
