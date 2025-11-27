@@ -30,6 +30,10 @@
                 </div>
 
                 <div class="clock-line"></div>
+                
+                <div class="clock-pulse-wrapper">
+                    <span class="clock-pulse-dot"></span>
+                </div>
 
                 <div class="clock-meta">
                     <span id="clock-weekday">---</span>
@@ -38,6 +42,29 @@
                 </div>
             </section>
 
+<!-- Energia do Dia -->
+<section class="card" id="solar-card">
+    <h2>Energia do Dia</h2>
+
+    <div class="solar-main">
+        <div class="solar-row">
+            <span class="solar-label">Nascer do sol</span>
+            <span id="solar-sunrise">--:--</span>
+        </div>
+        <div class="solar-row">
+            <span class="solar-label">Pôr do sol</span>
+            <span id="solar-sunset">--:--</span>
+        </div>
+        <div class="solar-row">
+            <span class="solar-label">Luz restante</span>
+            <span id="solar-remaining">--h --min</span>
+        </div>
+
+        <p class="notes-hint" id="solar-status">
+            Carregando dados solares…
+        </p>
+    </div>
+</section>
 
             <!-- Calendário -->
             <section class="card" id="calendar-card">
@@ -55,6 +82,32 @@
                     <!-- Dias do calendário serão gerados via JavaScript -->
                 </div>
             </section>
+
+            <!-- Eventos do Dia -->
+<section class="card" id="dayinfo-card">
+    <h2>Eventos do Dia</h2>
+
+    <div class="dayinfo-row">
+        <span class="dayinfo-label">Hoje</span>
+        <span id="dayinfo-today">--</span>
+    </div>
+
+    <div class="dayinfo-row">
+        <span class="dayinfo-label">Semana do mês</span>
+        <span id="dayinfo-weekofmonth">--</span>
+    </div>
+
+    <div class="dayinfo-row">
+        <span class="dayinfo-label">Restam no mês</span>
+        <span id="dayinfo-daysremaining">--</span>
+    </div>
+
+    <div class="dayinfo-row">
+        <span class="dayinfo-label">Dia do ano</span>
+        <span id="dayinfo-dayofyear">-- / --</span>
+    </div>
+</section>
+
 
             <!-- Fase da Lua -->
             <section class="card" id="moon-card">
@@ -76,6 +129,28 @@
             </section>
         </main>
     </div>
+
+    <!-- Clima -->
+<section class="card" id="weather-card">
+    <h2>Clima</h2>
+
+    <div class="weather-main">
+        <div class="weather-icon-temp">
+            <span id="weather-icon">--</span>
+            <span id="weather-temp">--°C</span>
+        </div>
+
+        <div class="weather-extra">
+            <span class="weather-label">Sensação:</span>
+            <span id="weather-apparent">--°C</span>
+        </div>
+
+        <p class="notes-hint" id="weather-status">
+            Carregando clima…
+        </p>
+    </div>
+</section>
+
 
     <!-- JavaScript embutido -->
     <script>
