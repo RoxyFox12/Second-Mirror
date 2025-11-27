@@ -303,6 +303,39 @@ body {
     animation: pulse-magic 0.6s ease-out;
 }
 
+.clock-pulse-wrapper {
+    margin-top: 0.3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.clock-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffb347;
+    box-shadow:
+        0 0 6px rgba(255, 200, 120, 0.8),
+        0 0 12px rgba(255, 200, 120, 0.5);
+    animation: pulse-dot 1s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0% {
+        transform: scale(0.6);
+        opacity: 0.4;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.6);
+        opacity: 0.4;
+    }
+}
+
+
 /* Calendário */
 .calendar-header {
     display: flex;
@@ -392,6 +425,61 @@ body {
     opacity: 0.2;
 }
 
+/* Energia do Dia */
+#solar-card h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.solar-main {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.solar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.solar-label {
+    opacity: 0.85;
+}
+
+#solar-sunrise,
+#solar-sunset,
+#solar-remaining {
+    font-weight: 600;
+}
+
+/* Eventos do Dia */
+#dayinfo-card h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dayinfo-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+}
+
+.dayinfo-label {
+    opacity: 0.85;
+}
+
+#dayinfo-dayofyear {
+    font-family: "Roboto Mono", monospace;
+}
+
+
 /* Fase da Lua */
 .moon-content {
     margin-top: 0.4rem;
@@ -411,6 +499,52 @@ body {
     margin-bottom: 0.4rem;
     filter: drop-shadow(0 0 8px rgba(255, 200, 120, 0.5));
 }
+
+/* Clima */
+#weather-card h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.weather-main {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.weather-icon-temp {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    justify-content: flex-start;
+}
+
+#weather-icon {
+    font-size: 1.6rem;
+}
+
+#weather-temp {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.weather-extra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.weather-label {
+    opacity: 0.85;
+}
+
+#weather-apparent {
+    font-weight: 600;
+}
+
 
 /* Subtítulo / texto pequeno embaixo */
 .notes-hint {
