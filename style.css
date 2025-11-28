@@ -600,6 +600,55 @@ body {
     font-weight: 600;
 }
 
+/* Solar card: dia x noite */
+#solar-card {
+    border-top: 1px solid rgba(255, 210, 140, 0.4);
+}
+
+#solar-card.solar-night {
+    border-top-color: rgba(160, 190, 255, 0.55);
+    box-shadow: 0 0 18px rgba(100, 140, 255, 0.25);
+}
+
+#solar-card.solar-day {
+    border-top-color: rgba(255, 210, 140, 0.8);
+    box-shadow: 0 0 18px rgba(255, 200, 120, 0.28);
+}
+
+/* Weather: classes de clima */
+#weather-card.weather-clear {
+    border-top: 1px solid rgba(255, 240, 180, 0.75);
+}
+
+#weather-card.weather-cloudy {
+    border-top: 1px solid rgba(200, 210, 230, 0.7);
+}
+
+#weather-card.weather-rainy {
+    border-top: 1px solid rgba(160, 200, 255, 0.8);
+}
+
+#weather-card.weather-storm {
+    border-top: 1px solid rgba(255, 160, 200, 0.85);
+}
+
+/* Pequena conexão com o relógio conforme o clima */
+body.weather-rainy #clock-card {
+    box-shadow: 0 0 20px rgba(150, 200, 255, 0.35);
+}
+
+body.weather-clear #clock-card {
+    box-shadow: 0 0 20px rgba(255, 210, 140, 0.45);
+}
+
+body.weather-cloudy #clock-card {
+    box-shadow: 0 0 18px rgba(190, 200, 220, 0.35);
+}
+
+body.weather-storm #clock-card {
+    box-shadow: 0 0 22px rgba(255, 150, 200, 0.45);
+}
+
 
 /* Subtítulo / texto pequeno embaixo */
 .notes-hint {
