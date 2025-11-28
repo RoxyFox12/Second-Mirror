@@ -415,10 +415,10 @@ function initSolarCard() {
     var sunsetEl    = document.getElementById("solar-sunset");
     var remainingEl = document.getElementById("solar-remaining");
     var statusEl    = document.getElementById("solar-status");
+    var solarCardEl = document.getElementById("solar-card");
 
     if (!sunriseEl || !sunsetEl || !remainingEl || !statusEl) return;
 
-    // Coordenadas aproximadas de São Paulo (pode ajustar se quiser)
     var lat = -23.55;
     var lng = -46.63;
 
@@ -437,7 +437,6 @@ function initSolarCard() {
 
             var sunriseDate = new Date(results.sunrise);
             var sunsetDate  = new Date(results.sunset);
-
             var now = new Date();
 
             var sunriseStr = pad(sunriseDate.getHours()) + ":" +
@@ -450,32 +449,41 @@ function initSolarCard() {
 
             var remainingText = "";
             if (now < sunriseDate) {
-                // Antes do nascer do sol
                 var diffMs = sunriseDate - now;
                 var diffMin = Math.round(diffMs / 60000);
                 var hrs = Math.floor(diffMin / 60);
                 var mins = diffMin % 60;
                 remainingText = "Dia ainda não começou (" + hrs + "h " + pad(mins) + "min)";
+                if (solarCardEl) {
+                    solarCardEl.classList.remove("solar-day");
+                    solarCardEl.classList.add("solar-night");
+                }
             } else if (now >= sunriseDate && now <= sunsetDate) {
-                // Durante o dia
                 var diffMsDay = sunsetDate - now;
                 var diffMinDay = Math.round(diffMsDay / 60000);
                 var hrsDay = Math.floor(diffMinDay / 60);
                 var minsDay = diffMinDay % 60;
                 remainingText = hrsDay + "h " + pad(minsDay) + "min";
+                if (solarCardEl) {
+                    solarCardEl.classList.remove("solar-night");
+                    solarCardEl.classList.add("solar-day");
+                }
             } else {
-                // Após o pôr do sol
                 remainingText = "Dia encerrado – agora é noite.";
+                if (solarCardEl) {
+                    solarCardEl.classList.remove("solar-day");
+                    solarCardEl.classList.add("solar-night");
+                }
             }
 
             remainingEl.textContent = remainingText;
-
             statusEl.textContent = "Dados solares carregados.";
         })
         .catch(function () {
             statusEl.textContent = "Falha ao obter dados solares.";
         });
 }
+
 
 // -----------------------------
 // Clima minimalista (Open-Meteo)
@@ -485,6 +493,7 @@ function initWeatherCard() {
     var tempEl     = document.getElementById("weather-temp");
     var appEl      = document.getElementById("weather-apparent");
     var statusEl   = document.getElementById("weather-status");
+    var weatherCardEl = document.getElementById("weather-card");
 
     if (!iconEl || !tempEl || !appEl || !statusEl) return;
 
@@ -510,18 +519,48 @@ function initWeatherCard() {
             tempEl.textContent = Math.round(temperature) + "°C";
             appEl.textContent  = Math.round(temperature) + "°C";
 
-            // Mapear código de clima para emoji simples
             var icon = "⛅";
-            if (weatherCode === 0) icon = "☀️";
-            else if (weatherCode === 1 || weatherCode === 2) icon = "🌤️";
-            else if (weatherCode === 3) icon = "☁️";
-            else if (weatherCode === 45 || weatherCode === 48) icon = "🌫️";
-            else if (weatherCode >= 51 && weatherCode <= 67) icon = "🌧️";
-            else if (weatherCode >= 71 && weatherCode <= 77) icon = "🌨️";
-            else if (weatherCode >= 80 && weatherCode <= 82) icon = "🌧️";
-            else if (weatherCode >= 95) icon = "⛈️";
+            var weatherClass = "weather-cloudy";
+
+            if (weatherCode === 0) {
+                icon = "☀️";
+                weatherClass = "weather-clear";
+            } else if (weatherCode === 1 || weatherCode === 2) {
+                icon = "🌤️";
+                weatherClass = "weather-clear";
+            } else if (weatherCode === 3) {
+                icon = "☁️";
+                weatherClass = "weather-cloudy";
+            } else if (weatherCode === 45 || weatherCode === 48) {
+                icon = "🌫️";
+                weatherClass = "weather-cloudy";
+            } else if (weatherCode >= 51 && weatherCode <= 67) {
+                icon = "🌧️";
+                weatherClass = "weather-rainy";
+            } else if (weatherCode >= 71 && weatherCode <= 77) {
+                icon = "🌨️";
+                weatherClass = "weather-rainy";
+            } else if (weatherCode >= 80 && weatherCode <= 82) {
+                icon = "🌧️";
+                weatherClass = "weather-rainy";
+            } else if (weatherCode >= 95) {
+                icon = "⛈️";
+                weatherClass = "weather-storm";
+            }
 
             iconEl.textContent = icon;
+
+            // remove classes antigas
+            document.body.classList.remove("weather-clear", "weather-cloudy", "weather-rainy", "weather-storm");
+            if (weatherCardEl) {
+                weatherCardEl.classList.remove("weather-clear", "weather-cloudy", "weather-rainy", "weather-storm");
+            }
+
+            // adiciona classe atual
+            document.body.classList.add(weatherClass);
+            if (weatherCardEl) {
+                weatherCardEl.classList.add(weatherClass);
+            }
 
             statusEl.textContent = "Dados de clima carregados.";
         })
@@ -529,6 +568,7 @@ function initWeatherCard() {
             statusEl.textContent = "Falha ao obter o clima.";
         });
 }
+
 
         
     // Inicialização geral
