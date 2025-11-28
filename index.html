@@ -42,29 +42,6 @@
                 </div>
             </section>
 
-<!-- Energia do Dia -->
-<section class="card" id="solar-card">
-    <h2>Energia do Dia</h2>
-
-    <div class="solar-main">
-        <div class="solar-row">
-            <span class="solar-label">Nascer do sol</span>
-            <span id="solar-sunrise">--:--</span>
-        </div>
-        <div class="solar-row">
-            <span class="solar-label">Pôr do sol</span>
-            <span id="solar-sunset">--:--</span>
-        </div>
-        <div class="solar-row">
-            <span class="solar-label">Luz restante</span>
-            <span id="solar-remaining">--h --min</span>
-        </div>
-
-        <p class="notes-hint" id="solar-status">
-            Carregando dados solares…
-        </p>
-    </div>
-</section>
 
             <!-- Calendário -->
             <section class="card" id="calendar-card">
@@ -82,6 +59,51 @@
                     <!-- Dias do calendário serão gerados via JavaScript -->
                 </div>
             </section>
+
+
+
+
+            <!-- Fase da Lua -->
+            <section class="card" id="moon-card">
+                <h2>Fase da Lua</h2>
+                <div class="moon-content" id="moon-content">
+                    <a class="moon-link"
+                       target="_blank"
+                       href="https://moonphase.guide/">
+                        <img 
+                            class="moon-image"
+                            src="https://moonphase.guide/module/MUC9hUlRpZVFSY0taQnhZK0xzUlVHdVZveFRaTXFWVDZaUmlOMU80aEM4Q3FaV2JaMlB1N0w3YnE3NFgxZFpuRG5xZHJBVjVSZFN0RmZoSWxTSDJISU9Fbk1TQkgrTEptRjAvWHNEcDB1VUk9.png" 
+                            alt="Fase atual da lua" />
+                    </a>
+
+                    <p class="notes-hint">
+                        Fase atual da lua – imagem de moonphase.guide.
+                    </p>
+                </div>
+            </section>
+
+
+            
+    <!-- Clima -->
+<section class="card" id="weather-card">
+    <h2>Clima</h2>
+
+    <div class="weather-main">
+        <div class="weather-icon-temp">
+            <span id="weather-icon">--</span>
+            <span id="weather-temp">--°C</span>
+        </div>
+
+        <div class="weather-extra">
+            <span class="weather-label">Sensação:</span>
+            <span id="weather-apparent">--°C</span>
+        </div>
+
+        <p class="notes-hint" id="weather-status">
+            Carregando clima…
+        </p>
+    </div>
+</section>
 
             <!-- Eventos do Dia -->
 <section class="card" id="dayinfo-card">
@@ -107,46 +129,31 @@
         <span id="dayinfo-dayofyear">-- / --</span>
     </div>
 </section>
+            
+<!-- Energia do Dia -->
+<section class="card" id="solar-card">
+    <h2>Energia do Dia</h2>
 
-
-            <!-- Fase da Lua -->
-            <section class="card" id="moon-card">
-                <h2>Fase da Lua</h2>
-                <div class="moon-content" id="moon-content">
-                    <a class="moon-link"
-                       target="_blank"
-                       href="https://moonphase.guide/">
-                        <img 
-                            class="moon-image"
-                            src="https://moonphase.guide/module/MUC9hUlRpZVFSY0taQnhZK0xzUlVHdVZveFRaTXFWVDZaUmlOMU80aEM4Q3FaV2JaMlB1N0w3YnE3NFgxZFpuRG5xZHJBVjVSZFN0RmZoSWxTSDJISU9Fbk1TQkgrTEptRjAvWHNEcDB1VUk9.png" 
-                            alt="Fase atual da lua" />
-                    </a>
-
-                    <p class="notes-hint">
-                        Fase atual da lua – imagem de moonphase.guide.
-                    </p>
-                </div>
-            </section>
-    <!-- Clima -->
-<section class="card" id="weather-card">
-    <h2>Clima</h2>
-
-    <div class="weather-main">
-        <div class="weather-icon-temp">
-            <span id="weather-icon">--</span>
-            <span id="weather-temp">--°C</span>
+    <div class="solar-main">
+        <div class="solar-row">
+            <span class="solar-label">Nascer do sol</span>
+            <span id="solar-sunrise">--:--</span>
+        </div>
+        <div class="solar-row">
+            <span class="solar-label">Pôr do sol</span>
+            <span id="solar-sunset">--:--</span>
+        </div>
+        <div class="solar-row">
+            <span class="solar-label">Luz restante</span>
+            <span id="solar-remaining">--h --min</span>
         </div>
 
-        <div class="weather-extra">
-            <span class="weather-label">Sensação:</span>
-            <span id="weather-apparent">--°C</span>
-        </div>
-
-        <p class="notes-hint" id="weather-status">
-            Carregando clima…
+        <p class="notes-hint" id="solar-status">
+            Carregando dados solares…
         </p>
     </div>
 </section>
+
             
         </main>
     </div>
