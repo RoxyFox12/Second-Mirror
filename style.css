@@ -81,6 +81,49 @@ body {
     padding-bottom: 0.4rem;
 }
 
+/* Ornamentação mística nos títulos dos cards */
+.card h2 {
+    position: relative;
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+}
+
+.card h2::after {
+    content: "⸸";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-55%);
+    font-size: 0.8rem;
+    opacity: 0.45;
+}
+
+/* Símbolos diferentes para alguns cards */
+#clock-card h2::after {
+    content: "✶";
+}
+
+#calendar-card h2::after {
+    content: "⌘";
+}
+
+#moon-card h2::after {
+    content: "☽";
+}
+
+#weather-card h2::after {
+    content: "☁";
+}
+
+#dayinfo-card h2::after {
+    content: "✧";
+}
+
+#solar-card h2::after {
+    content: "☉";
+}
+
+
 /* --- Relógio Cyber-Místico --- */
 
 #clock-card {
