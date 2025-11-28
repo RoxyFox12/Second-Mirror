@@ -674,6 +674,52 @@ body.weather-storm #clock-card {
     pointer-events: none;
 }
 
+/* Brisa nos cards inferiores */
+#weather-card,
+#dayinfo-card,
+#solar-card {
+    position: relative;
+    overflow: hidden;
+}
+
+#weather-card::before,
+#dayinfo-card::before,
+#solar-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 200, 150, 0.12),
+        rgba(120, 180, 255, 0.08),
+        rgba(0, 0, 0, 0)
+    );
+    opacity: 0.0;
+    pointer-events: none;
+    transform: translateX(-20%);
+    animation: card-breeze 18s ease-in-out infinite;
+}
+
+@keyframes card-breeze {
+    0% {
+        opacity: 0.0;
+        transform: translateX(-20%);
+    }
+    35% {
+        opacity: 0.45;
+        transform: translateX(10%);
+    }
+    70% {
+        opacity: 0.15;
+        transform: translateX(30%);
+    }
+    100% {
+        opacity: 0.0;
+        transform: translateX(60%);
+    }
+}
+
 
 /* Subtítulo / texto pequeno embaixo */
 .notes-hint {
